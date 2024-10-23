@@ -16,44 +16,50 @@ class HomeView extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const Row(
+              Row(
                 children: [
                   _CardOptions(
                     icon: Icons.assured_workload,
                     iconColor: Colors.red,
                     title: "Estado de cuenta",
                     subtitle: "Historial, Pagos",
+                    onTap: () => Navigator.pushNamed(context, "transactions"),
                   ),
                   _CardOptions(
-                      icon: Icons.assignment_add,
-                      iconColor: Colors.purple,
-                      title: "Inscripciones",
-                      subtitle: "Nuevo ciclo escolar"),
+                    icon: Icons.assignment_add,
+                    iconColor: Colors.purple,
+                    title: "Inscripciones",
+                    subtitle: "Nuevo ciclo escolar",
+                    onTap: () {},
+                  ),
                 ],
               ),
-              const Row(
+              Row(
                 children: [
                   _CardOptions(
                     icon: Icons.description,
                     iconColor: Colors.green,
                     title: "Notas",
                     subtitle: "Calficaciones por cursos",
+                    onTap: () {},
                   ),
                   _CardOptions(
                     icon: Icons.book,
                     iconColor: Colors.pink,
                     title: "Cursos",
                     subtitle: "Cursos asignados",
+                    onTap: () {},
                   ),
                 ],
               ),
               Row(
                 children: [
-                  const _CardOptions(
+                  _CardOptions(
                     icon: Icons.calendar_month,
                     iconColor: Colors.blue,
                     title: "Horarios",
                     subtitle: "Cursos asignados",
+                    onTap: () {},
                   ),
                   _CardOptions(
                     icon: Icons.person,
@@ -64,6 +70,7 @@ class HomeView extends StatelessWidget {
                                 .usuario
                                 ?.usuario ??
                             "Usuario",
+                    onTap: () {},
                   ),
                 ],
               ),
@@ -82,12 +89,14 @@ class _CardOptions extends StatelessWidget {
     required this.subtitle,
     required this.icon,
     required this.iconColor,
+    required this.onTap,
   }) : super(key: key);
 
   final String title;
   final String subtitle;
   final IconData icon;
   final Color iconColor;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -104,29 +113,32 @@ class _CardOptions extends StatelessWidget {
         borderRadius: 20,
         width: double.infinity,
         height: 150,
-        content: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                icon,
-                color: iconColor,
-                size: 35,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                title,
-                style: titleStyle,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                subtitle,
-                style: textStyle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+        content: InkWell(
+          onTap: () => onTap(),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  icon,
+                  color: iconColor,
+                  size: 35,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  title,
+                  style: titleStyle,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  subtitle,
+                  style: textStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ),
       ),
