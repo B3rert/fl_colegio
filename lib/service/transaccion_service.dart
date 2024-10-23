@@ -4,12 +4,12 @@ import 'package:fl_colegio/models/models.dart';
 import 'package:fl_colegio/providers/providers.dart';
 import 'package:http/http.dart' as http;
 
-class CuentaService {
+class TransaccionService {
   final String _baseUrl = ApiProvider().baseUrl;
 
-  Future<ResponseModel> getCuneta(int idUser) async {
-    final url =
-        Uri.parse('${_baseUrl}Cuenta/$idUser'); // Reemplaza con tu URL de API
+  Future<ResponseModel> getTransactions(int idCuenta) async {
+    final url = Uri.parse(
+        '${_baseUrl}Transaction/$idCuenta'); // Reemplaza con tu URL de API
 
     try {
       final response = await http.get(

@@ -3,7 +3,7 @@ import 'dart:convert';
 class TransaccionModel {
   int id;
   int cuentaId;
-  int monto;
+  double monto;
   dynamic fechaPago;
   int mes;
   int ao;

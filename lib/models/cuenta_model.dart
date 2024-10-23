@@ -3,7 +3,7 @@ import 'dart:convert';
 class CuentaModel {
   int id;
   int alumnoId;
-  int saldo;
+  double saldo;
   DateTime fechaApertura;
   bool solvente;
 

@@ -28,8 +28,7 @@ class HomeView extends StatelessWidget {
                         iconColor: Colors.red,
                         title: "Estado de cuenta",
                         subtitle: "Historial, Pagos",
-                        onTap: () =>
-                            Navigator.pushNamed(context, "transactions"),
+                        onTap: () => vm.navigateStatusAccount(context),
                       ),
                       _CardOptions(
                         icon: Icons.assignment_add,
