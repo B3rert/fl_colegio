@@ -1,7 +1,7 @@
 import 'package:fl_colegio/theme/app_theme.dart';
 import 'package:fl_colegio/view_models/view_models.dart';
 import 'package:fl_colegio/views/load_view.dart';
-import 'package:fl_colegio/widgets/widget.dart';
+import 'package:fl_colegio/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
