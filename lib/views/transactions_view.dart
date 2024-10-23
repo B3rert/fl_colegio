@@ -83,6 +83,7 @@ class TransactionsView extends StatelessWidget {
                           vertical: 5,
                         ),
                         child: CardHistoryWidget(
+                          onTap: () => vm.navigatePayment(context, transaccion),
                           title:
                               "${vm.getNameMonth(transaccion.mes)} ${transaccion.year}",
                           date: transaccion.fechaPago ?? "",

@@ -10,12 +10,14 @@ class CardHistoryWidget extends StatelessWidget {
     required this.date,
     required this.mount,
     required this.transaction,
+    required this.onTap,
   }) : super(key: key);
 
   final String title;
   final String date;
   final double mount;
   final bool transaction; //1 Cargo, 2 Abono
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -51,50 +53,53 @@ class CardHistoryWidget extends StatelessWidget {
         borderRadius: 20,
         width: double.infinity,
         height: 110,
-        content: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title.toUpperCase(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: titleStyle,
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      date,
-                      style: textStyle,
-                    )
-                  ],
+        content: InkWell(
+          onTap: () => onTap(),
+          child: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title.toUpperCase(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: titleStyle,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        date,
+                        style: textStyle,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 300,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      transaction ? "Pagado" : "Pendiente",
-                      style: textStyleBold,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      currencyFormat.format(mount),
-                      style: !transaction ? textStyleRed : textStyleGreen,
-                    )
-                  ],
+              SizedBox(
+                width: 300,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        transaction ? "Pagado" : "Pendiente",
+                        style: textStyleBold,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        currencyFormat.format(mount),
+                        style: !transaction ? textStyleRed : textStyleGreen,
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }

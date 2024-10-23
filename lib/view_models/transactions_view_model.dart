@@ -1,4 +1,5 @@
 import 'package:fl_colegio/models/models.dart';
+import 'package:fl_colegio/service/notification_service.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsViewModel extends ChangeNotifier {
@@ -11,6 +12,14 @@ class TransactionsViewModel extends ChangeNotifier {
   set isLoading(bool value) {
     _isLoading = value;
     notifyListeners();
+  }
+
+  navigatePayment(BuildContext context, TransaccionModel tra) {
+    if (tra.pagado) {
+      NotificationsService.showSnackbar("Esta transaccion ya fue pagada.");
+      return;
+    }
+    Navigator.pushNamed(context, 'payment');
   }
 
   String getNameMonth(int mes) {
