@@ -6,7 +6,7 @@ class TransaccionModel {
   double monto;
   dynamic fechaPago;
   int mes;
-  int ao;
+  int year;
   bool pagado;
 
   TransaccionModel({
@@ -15,7 +15,7 @@ class TransaccionModel {
     required this.monto,
     required this.fechaPago,
     required this.mes,
-    required this.ao,
+    required this.year,
     required this.pagado,
   });
 
@@ -31,7 +31,7 @@ class TransaccionModel {
         monto: json["monto"],
         fechaPago: json["fecha_Pago"],
         mes: json["mes"],
-        ao: json["año"],
+        year: json["año"],
         pagado: json["pagado"],
       );
 
@@ -41,7 +41,7 @@ class TransaccionModel {
         "monto": monto,
         "fecha_Pago": fechaPago,
         "mes": mes,
-        "año": ao,
+        "año": year,
         "pagado": pagado,
       };
 }
