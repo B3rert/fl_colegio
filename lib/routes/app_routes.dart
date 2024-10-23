@@ -6,6 +6,7 @@ class AppRoutes {
   static Map<String, Widget Function(BuildContext)> routes = {
     'home': (BuildContext context) => const HomeView(),
     'transactions': (BuildContext context) => const TransactionsView(),
+    'payment': (BuildContext context) => const PaymentView(),
     // initialRoute: (BuildContext context) => const HomeView(),
     initialRoute: (BuildContext context) => const LoginView(),
   };
