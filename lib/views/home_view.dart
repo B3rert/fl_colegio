@@ -1,5 +1,6 @@
 import 'package:fl_colegio/theme/app_theme.dart';
-import 'package:fl_colegio/view_models/login_view_model.dart';
+import 'package:fl_colegio/view_models/view_models.dart';
+import 'package:fl_colegio/views/views.dart';
 import 'package:fl_colegio/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,75 +10,89 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Row(
+    final HomeViewModel vm = Provider.of<HomeViewModel>(context);
+
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
                 children: [
-                  _CardOptions(
-                    icon: Icons.assured_workload,
-                    iconColor: Colors.red,
-                    title: "Estado de cuenta",
-                    subtitle: "Historial, Pagos",
-                    onTap: () => Navigator.pushNamed(context, "transactions"),
+                  Row(
+                    children: [
+                      _CardOptions(
+                        icon: Icons.assured_workload,
+                        iconColor: Colors.red,
+                        title: "Estado de cuenta",
+                        subtitle: "Historial, Pagos",
+                        onTap: () =>
+                            Navigator.pushNamed(context, "transactions"),
+                      ),
+                      _CardOptions(
+                        icon: Icons.assignment_add,
+                        iconColor: Colors.purple,
+                        title: "Inscripciones",
+                        subtitle: "Nuevo ciclo escolar",
+                        onTap: () {},
+                      ),
+                    ],
                   ),
-                  _CardOptions(
-                    icon: Icons.assignment_add,
-                    iconColor: Colors.purple,
-                    title: "Inscripciones",
-                    subtitle: "Nuevo ciclo escolar",
-                    onTap: () {},
+                  Row(
+                    children: [
+                      _CardOptions(
+                        icon: Icons.description,
+                        iconColor: Colors.green,
+                        title: "Notas",
+                        subtitle: "Calficaciones por cursos",
+                        onTap: () {},
+                      ),
+                      _CardOptions(
+                        icon: Icons.book,
+                        iconColor: Colors.pink,
+                        title: "Cursos",
+                        subtitle: "Cursos asignados",
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _CardOptions(
+                        icon: Icons.calendar_month,
+                        iconColor: Colors.blue,
+                        title: "Horarios",
+                        subtitle: "Cursos asignados",
+                        onTap: () {},
+                      ),
+                      _CardOptions(
+                        icon: Icons.person,
+                        iconColor: Colors.orange,
+                        title: "Perfil",
+                        subtitle:
+                            Provider.of<LoginViewModel>(context, listen: false)
+                                    .usuario
+                                    ?.usuario ??
+                                "Usuario",
+                        onTap: () {},
+                      ),
+                    ],
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  _CardOptions(
-                    icon: Icons.description,
-                    iconColor: Colors.green,
-                    title: "Notas",
-                    subtitle: "Calficaciones por cursos",
-                    onTap: () {},
-                  ),
-                  _CardOptions(
-                    icon: Icons.book,
-                    iconColor: Colors.pink,
-                    title: "Cursos",
-                    subtitle: "Cursos asignados",
-                    onTap: () {},
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  _CardOptions(
-                    icon: Icons.calendar_month,
-                    iconColor: Colors.blue,
-                    title: "Horarios",
-                    subtitle: "Cursos asignados",
-                    onTap: () {},
-                  ),
-                  _CardOptions(
-                    icon: Icons.person,
-                    iconColor: Colors.orange,
-                    title: "Perfil",
-                    subtitle:
-                        Provider.of<LoginViewModel>(context, listen: false)
-                                .usuario
-                                ?.usuario ??
-                            "Usuario",
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+        if (vm.isLoading)
+          const ModalBarrier(
+            dismissible: false,
+            // color: Colors.black.withOpacity(0.3),
+            color: AppTheme.backgroundCololorDark,
+          ),
+        if (vm.isLoading) const LoadView(),
+      ],
     );
   }
 }
