@@ -1,7 +1,6 @@
 import 'package:fl_colegio/routes/app_routes.dart';
 import 'package:fl_colegio/service/services.dart';
 import 'package:fl_colegio/theme/app_theme.dart';
-import 'package:fl_colegio/view_models/login_view_model.dart';
 import 'package:fl_colegio/view_models/view_models.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +18,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => TransactionsViewModel()),
       ],
       child: const MyApp(),
     );
