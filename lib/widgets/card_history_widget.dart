@@ -1,6 +1,7 @@
 import 'package:fl_colegio/theme/app_theme.dart';
 import 'package:fl_colegio/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardHistoryWidget extends StatelessWidget {
   const CardHistoryWidget({
@@ -14,10 +15,16 @@ class CardHistoryWidget extends StatelessWidget {
   final String title;
   final String date;
   final double mount;
-  final int transaction; //1 Cargo, 2 Abono
+  final bool transaction; //1 Cargo, 2 Abono
 
   @override
   Widget build(BuildContext context) {
+    final currencyFormat = NumberFormat.currency(
+      symbol:
+          "GTQ ", // Símbolo de la moneda (puedes cambiarlo según tu necesidad)
+      decimalDigits: 2, // Número de decimales a mostrar
+    );
+
     var titleStyle = const TextStyle(
       fontSize: 17,
       color: AppTheme.primary,
@@ -68,20 +75,20 @@ class CardHistoryWidget extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 100,
+              width: 300,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      transaction == 1 ? "Cargo" : "Abono",
+                      transaction ? "Pagado" : "Pendiente",
                       style: textStyleBold,
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Q. $mount",
-                      style: transaction == 1 ? textStyleRed : textStyleGreen,
+                      currencyFormat.format(mount),
+                      style: !transaction ? textStyleRed : textStyleGreen,
                     )
                   ],
                 ),

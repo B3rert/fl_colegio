@@ -83,10 +83,11 @@ class TransactionsView extends StatelessWidget {
                           vertical: 5,
                         ),
                         child: CardHistoryWidget(
-                          title: vm.obtenerNombreMes(transaccion.mes),
-                          date: "01/01/2023",
-                          transaction: 1,
-                          mount: 100.00,
+                          title:
+                              "${vm.getNameMonth(transaccion.mes)} ${transaccion.year}",
+                          date: transaccion.fechaPago ?? "",
+                          transaction: transaccion.pagado,
+                          mount: transaccion.monto,
                         ),
                       );
                     },
