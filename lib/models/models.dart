@@ -1,3 +1,4 @@
+export 'package:fl_colegio/models/opcion_model.dart';
 export 'package:fl_colegio/models/trasnaccion_model.dart';
 export 'package:fl_colegio/models/cuenta_model.dart';
 export 'package:fl_colegio/models/usuario_model.dart';
