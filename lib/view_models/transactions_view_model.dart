@@ -14,6 +14,11 @@ class TransactionsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  getStrDate(String dateStr) {
+    DateTime date = DateTime.parse(dateStr);
+    return "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute}";
+  }
+
   navigatePayment(BuildContext context, int indexTra) {
     if (transacciones[indexTra].pagado) {
       NotificationsService.showSnackbar("Esta transaccion ya fue pagada.");

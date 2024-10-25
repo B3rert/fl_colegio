@@ -87,7 +87,9 @@ class TransactionsView extends StatelessWidget {
                           onTap: () => vm.navigatePayment(context, index),
                           title:
                               "${vm.getNameMonth(transaccion.mes)} ${transaccion.year}",
-                          date: transaccion.fechaPago ?? "",
+                          date: transaccion.fechaPago != null
+                              ? vm.getStrDate(transaccion.fechaPago)
+                              : "",
                           transaction: transaccion.pagado,
                           mount: transaccion.monto,
                         ),
