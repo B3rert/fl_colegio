@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class PaymentService {
   final String _baseUrlBanco = ApiProvider().baseUrlbBanco;
 
-  Future<ResponseModel> postLogin(PaymentModel payment) async {
+  Future<ResponseModel> postPayment(PaymentModel payment) async {
     final url = Uri.parse(
         '${_baseUrlBanco}Tarjeta/pago'); // Reemplaza con tu URL de API
 
