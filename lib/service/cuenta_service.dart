@@ -5,7 +5,7 @@ import 'package:fl_colegio/providers/providers.dart';
 import 'package:http/http.dart' as http;
 
 class CuentaService {
-  final String _baseUrl = ApiProvider().baseUrl;
+  final String _baseUrl = ApiProvider().baseUrlColegio;
 
   Future<ResponseModel> getCuneta(int idUser) async {
     final url =

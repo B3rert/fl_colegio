@@ -5,7 +5,7 @@ import 'package:fl_colegio/providers/providers.dart';
 import 'package:http/http.dart' as http;
 
 class TransaccionService {
-  final String _baseUrl = ApiProvider().baseUrl;
+  final String _baseUrl = ApiProvider().baseUrlColegio;
 
   Future<ResponseModel> getTransactions(int idCuenta) async {
     final url = Uri.parse(

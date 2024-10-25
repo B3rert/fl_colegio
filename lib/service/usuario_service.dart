@@ -6,7 +6,7 @@ import 'package:fl_colegio/providers/providers.dart';
 import 'package:http/http.dart' as http;
 
 class UsuarioService {
-  final String _baseUrl = ApiProvider().baseUrl;
+  final String _baseUrl = ApiProvider().baseUrlColegio;
 
   Future<ResponseModel> postLogin(LoginModel login) async {
     final url =
