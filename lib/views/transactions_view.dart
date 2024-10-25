@@ -26,6 +26,7 @@ class TransactionsView extends StatelessWidget {
 
     final TransactionsViewModel vm =
         Provider.of<TransactionsViewModel>(context);
+    final PaymentViewModel payVM = Provider.of<PaymentViewModel>(context);
     return Stack(
       children: [
         Scaffold(

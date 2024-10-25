@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:fl_colegio/models/models.dart';
 import 'package:fl_colegio/models/put_payment_model.dart';
 import 'package:fl_colegio/service/payment_service.dart';
@@ -153,17 +155,15 @@ class PaymentViewModel extends ChangeNotifier {
       }
     }
 
-    //realizar pago tarjeta
-    if (opcion!.id == 1) {
-      print(date.value.text);
-      // PaymentModel paymentModel = PaymentModel(
-      //   cardNumber: cardNumber,
-      //   cvv: cvv,
-      //   expirationDate: expirationDate,
-      //   amount: amount,
-      //   destinationAccount: destinationAccount,
-      // );
-    }
+    //limpiar campos
+    card.text = "";
+    name.text = "";
+    date.text = "";
+    cvv.text = "";
+    auth.text = "";
+
+    //Salir de la pantalla
+    Navigator.pop(context);
   }
 
   changeOption(OpcionModel value) {
