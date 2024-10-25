@@ -3,7 +3,7 @@ import 'dart:convert';
 class PaymentModel {
   String cardNumber;
   String cvv;
-  DateTime expirationDate;
+  String expirationDate;
   double amount;
   String destinationAccount;
 
@@ -23,7 +23,7 @@ class PaymentModel {
   factory PaymentModel.fromMap(Map<String, dynamic> json) => PaymentModel(
         cardNumber: json["cardNumber"],
         cvv: json["cvv"],
-        expirationDate: DateTime.parse(json["expirationDate"]),
+        expirationDate: json["expirationDate"],
         amount: json["amount"]?.toDouble(),
         destinationAccount: json["destinationAccount"],
       );
@@ -31,7 +31,7 @@ class PaymentModel {
   Map<String, dynamic> toMap() => {
         "cardNumber": cardNumber,
         "cvv": cvv,
-        "expirationDate": expirationDate.toIso8601String(),
+        "expirationDate": expirationDate,
         "amount": amount,
         "destinationAccount": destinationAccount,
       };

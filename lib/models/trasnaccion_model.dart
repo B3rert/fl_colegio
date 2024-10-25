@@ -8,6 +8,7 @@ class TransaccionModel {
   int mes;
   int year;
   bool pagado;
+  String? autorizacion;
 
   TransaccionModel({
     required this.id,
@@ -17,6 +18,7 @@ class TransaccionModel {
     required this.mes,
     required this.year,
     required this.pagado,
+    required this.autorizacion,
   });
 
   factory TransaccionModel.fromJson(String str) =>
@@ -33,6 +35,7 @@ class TransaccionModel {
         mes: json["mes"],
         year: json["año"],
         pagado: json["pagado"],
+        autorizacion: json["autorizacion"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -43,5 +46,6 @@ class TransaccionModel {
         "mes": mes,
         "año": year,
         "pagado": pagado,
+        "autorizacion": autorizacion,
       };
 }

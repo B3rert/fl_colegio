@@ -1,7 +1,10 @@
 import 'package:fl_colegio/models/models.dart';
+import 'package:fl_colegio/models/put_payment_model.dart';
 import 'package:fl_colegio/service/payment_service.dart';
 import 'package:fl_colegio/service/services.dart';
+import 'package:fl_colegio/view_models/view_models.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PaymentViewModel extends ChangeNotifier {
   bool _isLoading = false;
@@ -25,7 +28,10 @@ class PaymentViewModel extends ChangeNotifier {
 
   OpcionModel? opcion;
 
-  confirmPAyment(BuildContext context) async {
+  confirmPAyment(
+    BuildContext context,
+    int indexTra,
+  ) async {
     if (opcion!.id == 1) {
       if (card.value.text.isEmpty ||
           name.value.text.isEmpty ||
@@ -59,24 +65,27 @@ class PaymentViewModel extends ChangeNotifier {
       // Format the month to MM
       String monthMM = dateTime.month.toString().padLeft(2, '0');
 
-      if (int.parse(yearYY) < year) {
+      if (year < int.parse(yearYY)) {
         NotificationsService.showSnackbar("Tarjeta expirada");
         return;
       }
 
-      if (int.parse(yearYY) == year && int.parse(monthMM) < month) {
+      if (int.parse(yearYY) == year && month < int.parse(monthMM)) {
         NotificationsService.showSnackbar("Tarjeta expirada");
         return;
       }
 
-      dateTime = DateTime(year, month, dateTime.day);
+      final TransactionsViewModel traVM = Provider.of<TransactionsViewModel>(
+        context,
+        listen: false,
+      );
 
       //To Do payment proccess
       final PaymentModel paymentModel = PaymentModel(
-        cardNumber: card.value.text,
+        cardNumber: card.value.text.replaceAll(" ", ""), //QUITAR ESPACIOS?
         cvv: cvv.value.text,
-        expirationDate: dateTime,
-        amount: 500, //TODO:Set Monto
+        expirationDate: "${year + 2000}-$month-01",
+        amount: traVM.transacciones[indexTra].monto,
         destinationAccount: "1000000012", //TODO:Set account colege
       );
 
@@ -89,15 +98,15 @@ class PaymentViewModel extends ChangeNotifier {
 
       if (!resPaymnet.success) {
         isLoading = false;
-
+        print("aqui me quedo");
         NotificationsService.showSnackbar(resPaymnet.data["data"]);
         return;
       }
 
-      final List<PaymentModel> paymnetsSucces = [];
+      final List<TransactionBankModel> paymnetsSucces = [];
 
       for (var element in resPaymnet.data["data"]) {
-        paymnetsSucces.add(PaymentModel.fromMap(element));
+        paymnetsSucces.add(TransactionBankModel.fromMap(element));
       }
 
       if (paymnetsSucces.isEmpty) {
@@ -107,9 +116,32 @@ class PaymentViewModel extends ChangeNotifier {
         return;
       }
 
-      //set transaction in dbCol
+      //set transaction in dbColegio
 
-      //TODO:Dialog confirm tra
+      final PutPaymentTraModel putPayment = PutPaymentTraModel(
+        traId: traVM.transacciones[indexTra].id, //asignar valor
+        autorizacion: paymnetsSucces.first.numeroAutorizacion,
+      );
+
+      final TransaccionService transaccionService = TransaccionService();
+
+      final ResponseModel resRegisterPayment =
+          await transaccionService.postPayment(putPayment);
+
+      if (!resRegisterPayment.success) {
+        isLoading = false;
+        NotificationsService.showSnackbar(resRegisterPayment.data["data"]);
+        return;
+      }
+
+      final TransaccionModel traColegio =
+          TransaccionModel.fromMap(resRegisterPayment.data["data"]);
+      traVM.transacciones[indexTra] = traColegio;
+
+      traVM.cuenta!.saldo = traVM.cuenta!.saldo - traColegio.monto;
+
+      NotificationsService.showSnackbar(
+          "Pago realizado. No. Autorizacion: ${paymnetsSucces.first.numeroAutorizacion}");
 
       isLoading = false;
     }

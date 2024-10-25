@@ -14,12 +14,16 @@ class TransactionsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  navigatePayment(BuildContext context, TransaccionModel tra) {
-    if (tra.pagado) {
+  navigatePayment(BuildContext context, int indexTra) {
+    if (transacciones[indexTra].pagado) {
       NotificationsService.showSnackbar("Esta transaccion ya fue pagada.");
       return;
     }
-    Navigator.pushNamed(context, 'payment');
+    Navigator.pushNamed(
+      context,
+      'payment',
+      arguments: indexTra,
+    );
   }
 
   String getNameMonth(int mes) {

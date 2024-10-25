@@ -19,6 +19,8 @@ class PaymentService {
       );
       var data = jsonDecode(response.body);
 
+      print(response.body);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         // La petición fue exitosa
         return ResponseModel(success: true, data: data);

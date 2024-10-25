@@ -54,6 +54,11 @@ class _PaymentViewState extends State<PaymentView> {
   @override
   Widget build(BuildContext context) {
     final PaymentViewModel vm = Provider.of<PaymentViewModel>(context);
+    final TransactionsViewModel traVM =
+        Provider.of<TransactionsViewModel>(context);
+
+    int indexTra = ModalRoute.of(context)!.settings.arguments as int;
+
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -64,7 +69,7 @@ class _PaymentViewState extends State<PaymentView> {
             children: [
               Center(
                 child: Text(
-                  "Total a pagar: GTQ 5000",
+                  "Total a pagar: ${currencyFormat.format(traVM.transacciones[indexTra].monto)}",
                   style: textStyleBold,
                 ),
               ),
@@ -272,7 +277,7 @@ class _PaymentViewState extends State<PaymentView> {
               const SizedBox(height: 20),
               GradientButtonWidget(
                 radius: 22,
-                onTap: () => vm.confirmPAyment(context),
+                onTap: () => vm.confirmPAyment(context, indexTra),
                 text: "Confirmar pago",
               ),
             ],
