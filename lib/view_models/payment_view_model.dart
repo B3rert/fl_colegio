@@ -34,6 +34,11 @@ class PaymentViewModel extends ChangeNotifier {
     BuildContext context,
     int indexTra,
   ) async {
+    final TransactionsViewModel traVM = Provider.of<TransactionsViewModel>(
+      context,
+      listen: false,
+    );
+
     if (opcion!.id == 1) {
       if (card.value.text.isEmpty ||
           name.value.text.isEmpty ||
@@ -77,11 +82,6 @@ class PaymentViewModel extends ChangeNotifier {
         return;
       }
 
-      final TransactionsViewModel traVM = Provider.of<TransactionsViewModel>(
-        context,
-        listen: false,
-      );
-
       //To Do payment proccess
       final PaymentModel paymentModel = PaymentModel(
         cardNumber: card.value.text.replaceAll(" ", ""), //QUITAR ESPACIOS?
@@ -99,7 +99,6 @@ class PaymentViewModel extends ChangeNotifier {
           await paymentService.postPayment(paymentModel);
 
       if (!resPaymnet.success) {
-        isLoading = false;
         print("aqui me quedo");
         NotificationsService.showSnackbar(resPaymnet.data["data"]);
         return;
@@ -153,7 +152,75 @@ class PaymentViewModel extends ChangeNotifier {
         NotificationsService.showSnackbar("Completa todos los datos.");
         return;
       }
+
+      isLoading = true;
+
+      final PaymentService paymentService = PaymentService();
+
+      final ResponseModel resValidAuth =
+          await paymentService.getTransaction(auth.value.text);
+
+      if (!resValidAuth.success) {
+        isLoading = false;
+        NotificationsService.showSnackbar("Algo salió mal");
+        return;
+      }
+
+      if (resValidAuth.data["data"].isEmpty) {
+        isLoading = false;
+        NotificationsService.showSnackbar(
+            "Numero de autorizacion no es valido.");
+        return;
+      }
+
+      final TransactionBankModel traAuth = resValidAuth.data["data"].first;
+
+      if (traAuth.monto < traVM.transacciones[indexTra].monto) {
+        isLoading = false;
+        NotificationsService.showSnackbar(
+            "El monto de la transacion no es valido.");
+        return;
+      }
+
+      final TransaccionService transaccionService = TransaccionService();
+
+      final ResponseModel validateTraCole =
+          await transaccionService.validateTransaction(auth.value.text);
+
+      if (!validateTraCole.success) {
+        isLoading = false;
+        NotificationsService.showSnackbar(validateTraCole.data["data"]);
+        return;
+      }
+
+//set transaction in dbColegio
+
+      final PutPaymentTraModel putPayment = PutPaymentTraModel(
+        traId: traVM.transacciones[indexTra].id, //asignar valor
+        autorizacion: auth.value.text,
+      );
+
+      final ResponseModel resRegisterPayment =
+          await transaccionService.postPayment(putPayment);
+
+      if (!resRegisterPayment.success) {
+        isLoading = false;
+        NotificationsService.showSnackbar(resRegisterPayment.data["data"]);
+        return;
+      }
+
+      final TransaccionModel traColegio =
+          TransaccionModel.fromMap(resRegisterPayment.data["data"]);
+      traVM.transacciones[indexTra] = traColegio;
+
+      traVM.cuenta!.saldo = traVM.cuenta!.saldo - traColegio.monto;
+
+      NotificationsService.showSnackbar("Pago realizado.");
+
+      isLoading = false;
     }
+
+    isLoading = false;
 
     //limpiar campos
     card.text = "";
