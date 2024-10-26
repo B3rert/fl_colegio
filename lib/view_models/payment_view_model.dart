@@ -88,7 +88,7 @@ class PaymentViewModel extends ChangeNotifier {
         cvv: cvv.value.text,
         expirationDate: "${year + 2000}-$month-01",
         amount: traVM.transacciones[indexTra].monto,
-        destinationAccount: "1000000012", //TODO:Set account colege
+        destinationAccount: "1000000014", //TODO:Set account colege
       );
 
       PaymentService paymentService = PaymentService();
