@@ -7,6 +7,28 @@ import 'package:http/http.dart' as http;
 class PaymentService {
   final String _baseUrlBanco = ApiProvider().baseUrlbBanco;
 
+  Future<ResponseModel> getTransaction(String autorizacion) async {
+    final url = Uri.parse(
+        '${_baseUrlBanco}Transaccion/$autorizacion'); // Reemplaza con tu URL de API
+
+    try {
+      final response = await http.get(
+        url,
+      );
+      var data = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // La petición fue exitosa
+        return ResponseModel(success: true, data: data);
+      } else {
+        // Hubo un error en la petición
+        return ResponseModel(success: false, data: data);
+      }
+    } catch (e) {
+      return ResponseModel(success: false, data: e);
+    }
+  }
+
   Future<ResponseModel> postPayment(PaymentModel payment) async {
     final url = Uri.parse(
         '${_baseUrlBanco}Tarjeta/pago'); // Reemplaza con tu URL de API
@@ -18,8 +40,6 @@ class PaymentService {
         body: payment.toJson(),
       );
       var data = jsonDecode(response.body);
-
-      print(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // La petición fue exitosa
