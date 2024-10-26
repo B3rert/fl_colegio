@@ -173,7 +173,8 @@ class PaymentViewModel extends ChangeNotifier {
         return;
       }
 
-      final TransactionBankModel traAuth = resValidAuth.data["data"].first;
+      final TransactionBankModel traAuth =
+          TransactionBankModel.fromMap(resValidAuth.data["data"].first);
 
       if (traAuth.monto < traVM.transacciones[indexTra].monto) {
         isLoading = false;
